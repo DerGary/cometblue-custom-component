@@ -38,7 +38,7 @@ PLATFORMS: list[Platform] = [
     Platform.SENSOR,
 ]
 LOGGER = logging.getLogger(__name__)
-TIMEOUT = 20
+TIMEOUT = 60
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
