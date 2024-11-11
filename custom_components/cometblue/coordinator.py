@@ -68,12 +68,16 @@ class CometBlueDataUpdateCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
                     raise ConfigEntryNotReady(
                         f"Failed to connect to '{self.device.device.address}'"
                     )
-                return await getattr(self.device, function)(**payload)
+                result = await getattr(self.device, function)(**payload)
         except ValueError as err:
             raise ServiceValidationError(
                 f"Invalid payload '{payload}' for '{caller_entity_id}': {err}"
             ) from err
         except BleakError as err:
+            raise HomeAssistantError(
+                f"Error sending command '{payload}' to '{caller_entity_id}': {err}"
+            ) from err
+        except TimeoutError as err:
             raise HomeAssistantError(
                 f"Error sending command '{payload}' to '{caller_entity_id}': {err}"
             ) from err

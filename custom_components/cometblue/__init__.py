@@ -54,7 +54,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         )
 
     cometblue_device = cometblue.AsyncCometBlue(
-        device=ble_device, pin=entry.data.get(CONF_PIN), timeout=TIMEOUT, retries=1
+        device=ble_device, pin=entry.data.get(CONF_PIN), timeout=TIMEOUT, retries=3
     )
     try:
         async with cometblue_device:
