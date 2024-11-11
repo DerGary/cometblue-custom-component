@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import timedelta
 import logging
 from typing import Any
+from datetime import datetime
 
 from bleak import BleakError
 from cometblue import AsyncCometBlue, InvalidByteValueError
@@ -95,7 +96,7 @@ class CometBlueDataUpdateCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
                 retrieved_temperatures = await self.device.get_temperature_async()
                 data = {
                     "battery": await self.device.get_battery_async(),
-                    "holiday": await self.device.get_holiday_async(1),
+                    "holiday": {"start": datetime(2000, 1, 1, 1), "end": datetime(2000,1,1,2), "temperature": 7.5},
                     # If one value was not retrieved correctly, keep the old value
                     **{
                         k: retrieved_temperatures.get(k) or self.data.get(k)
